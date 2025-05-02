@@ -5,7 +5,8 @@ from aiogram import Bot
 from boot.config_handler import config
 from boot.log_module import level_table, logging
 
-bot = Bot(token=config["alert_bot_token"])
+if config["alert_enabled"]:
+    bot = Bot(token=config["alert_bot_token"])
 
 
 async def tgalert(level: str, alert: str):
