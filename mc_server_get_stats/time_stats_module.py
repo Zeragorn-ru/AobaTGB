@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 import paramiko
 import json
-import os
 from io import BytesIO
+
+from config_handler import config
 
 def get_play_time_hours(stats_json):
     try:
@@ -31,14 +32,15 @@ def fetch_stats_and_usernames(sftp, remote_path="."):
                 name = uuid_to_nick.get(uuid, "(неизвестно)")
                 print(f"{name}: {hours} ч")
 
-# Подключение по SFTP
-transport = paramiko.Transport((host, port))
-transport.connect(username=username, password=password)
-sftp = paramiko.SFTPClient.from_transport(transport)
 
-# Выполнение
-fetch_stats_and_usernames(sftp, remote_root_path)
+def get_play_time()->list:
+    transport = paramiko.Transport((config["host"], config["port"]))
+    transport.connect(username = config["username"], password = config["password"])
+    sftp = paramiko.SFTPClient.from_transport(transport)
 
-# Завершение
-sftp.close()
-transport.close()
+    # Выполнение
+    fetch_stats_and_usernames(sftp, config["remote_world_path"])
+
+    # Завершение
+    sftp.close()
+    transport.close()
