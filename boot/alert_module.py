@@ -17,7 +17,7 @@ def log(level: str, alert: str):
     log_func = getattr(logging, level.lower(), logging.info)
     log_func(alert)
 
-    if level_table[level] >= level_table[config["alert_level"]]:
+    if level_table[level] >= level_table[config["alert_level"]] and config["alert_enabled"]:
         try:
             loop = asyncio.get_running_loop()
             loop.create_task(tgalert(level, alert))
