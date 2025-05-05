@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 import json
 import os
-from typing import List, Optional, Dict, Any
 from contextlib import asynccontextmanager
-from asyncssh import SFTPClient, connect
+from typing import List, Optional, Dict, Any
 
 import asyncssh
+from asyncssh import connect
 
-from boot import debug, info, warn, error, critical
+from boot import info, warn, error
+
 
 class SFTPConnectionError(Exception):
     """Пользовательское исключение для проблем с SFTP-соединением."""
