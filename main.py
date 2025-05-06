@@ -7,21 +7,23 @@ from aiogram.fsm.storage.memory import MemoryStorage
 import asyncio
 
 from boot import config, debug, info, warn, error, critical
-from mc_server_get_stats import StatsHandler, RemoteFileDownloader
+from mc_server_handler import StatsHandler, SFTPHandler
 
 # Создание классов для работы бота
 dp = Dispatcher(storage = MemoryStorage())
 router = Router()
 bot = Bot(token = config["bot_token"]) # Создание класса бота
 
-# Класс статистики
-SH = StatsHandler(
-    downloader = RemoteFileDownloader(
+downloader = SFTPHandler(
             host=config["host"],
             port=config["port"],
             username=config["username"],
             password=config["password"]
         )
+
+# Класс статистики
+SH = StatsHandler(
+   downloader
 )
 
 @router.message(Command("start"))

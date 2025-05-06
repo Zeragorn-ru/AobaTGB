@@ -4,12 +4,12 @@ import json
 
 import asyncio
 
-from mc_server_get_stats.sftp_handler import RemoteFileDownloader, SFTPConnectionError
+from mc_server_handler.sftp_handler import SFTPHandler, SFTPConnectionError
 from boot import debug, info, warn, error, critical
 
 class StatsHandler:
-    def __init__(self, downloader: RemoteFileDownloader = None, remote_world_name: str = "world"):
-        self.downloader: RemoteFileDownloader = downloader
+    def __init__(self, downloader: SFTPHandler = None, remote_world_name: str = "world"):
+        self.downloader: SFTPHandler = downloader
         self.users: Dict[str, str] = {}
         self.users_stats: List[str] = []
         self.remote_world_name: str = remote_world_name

@@ -14,7 +14,7 @@ class SFTPConnectionError(Exception):
     """Пользовательское исключение для проблем с SFTP-соединением."""
     pass
 
-class RemoteFileDownloader:
+class SFTPHandler:
     def __init__(self, host: str, username: str, password: str, port: int = 22):
         self.host = host
         self.port = port
