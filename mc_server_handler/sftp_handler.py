@@ -3,6 +3,7 @@ import json
 import os
 from contextlib import asynccontextmanager
 from typing import List, Optional, Dict, Any
+import io
 
 import asyncssh
 from asyncssh import connect
@@ -22,7 +23,7 @@ class SFTPHandler:
         self.password = password
         self._file_cache: Dict[str, Any] = {}
         self._listdir_cache: Optional[List[str]] = None
-        self._remote_upload_path = "/remote/path/to/upload/"
+        self._remote_upload_path = "./plugins/CustomDiscs/musicdata/"
 
     @asynccontextmanager
     async def _sftp_connection(self):
@@ -68,25 +69,19 @@ class SFTPHandler:
             error(f"Ошибка при массовой загрузке файлов: {e}")
             raise SFTPConnectionError(f"Ошибка соединения: {e}") from e
 
-    async def upload_mp3_file(self, local_file_path: str) -> None:
+    async def upload_mp3_file(self, file: io.BufferedReader, file_name = None) -> None:
         """Асинхронная загрузка MP3-файла на сервер по фиксированному пути."""
-        if not os.path.isfile(local_file_path):
-            error(f"Файл {local_file_path} не существует")
-            raise ValueError(f"Файл {local_file_path} не существует")
-        if not local_file_path.lower().endswith(".mp3"):
-            error(f"Файл {local_file_path} не является MP3-файлом")
-            raise ValueError(f"Файл должен иметь расширение .mp3")
+        if file_name is None: file_name = file.name
 
-        file_name = os.path.basename(local_file_path)
         remote_file_path = f"{self._remote_upload_path}{file_name}"
-
         try:
             async with self._sftp_connection() as sftp:
-                await sftp.put(local_file_path, remote_file_path)
-                info(f"Файл {local_file_path} успешно загружен на {remote_file_path}")
+                async with sftp.open(remote_file_path, "wb") as remote_file:
+                    await remote_file.write(file.read())
+                    info(f"Файл {file} успешно загружен на {remote_file_path}")
         except asyncssh.SFTPError as e:
-            error(f"Ошибка загрузки файла {local_file_path} на сервер: {e}")
-            raise SFTPConnectionError(f"Не удалось загрузить файл на {remote_file_path}") from e
+            error(f"Ошибка загрузки файла {file} на сервер: {e}")
+            raise SFTPConnectionError(f"Не удалось загрузить файл на {file}") from e
 
     def get_file(self, file_path: str) -> Dict[str, Any]:
         """Возвращает содержимое кэшированного файла по пути."""
