@@ -39,7 +39,7 @@ class SFTPHandler:
                 async with conn.start_sftp_client() as sftp:
                     yield sftp
         except asyncssh.Error as e:
-            error(f"Ошибка подключения SFTP: {e}")
+            await error(f"Ошибка подключения SFTP: {e}")
             raise SFTPConnectionError(f"Не удалось подключиться к {self.host}:{self.port}") from e
 
     async def json_file_load(self, file_path: str) -> None:
@@ -50,7 +50,7 @@ class SFTPHandler:
                     content = await remote_file.read()
                     self._file_cache[file_path] = json.loads(content)
         except (json.JSONDecodeError, asyncssh.SFTPError, asyncssh.Error) as e:
-            error(f"Не удалось загрузить JSON-файл {file_path}: {e}")
+            await error(f"Не удалось загрузить JSON-файл {file_path}: {e}")
             raise
 
     async def bulk_json_load(self, file_paths: List[str]) -> None:
@@ -63,10 +63,10 @@ class SFTPHandler:
                             content = await remote_file.read()
                             self._file_cache[file_path] = json.loads(content)
                     except (json.JSONDecodeError, asyncssh.SFTPError) as e:
-                        warn(f"Не удалось загрузить файл {file_path}: {e}")
+                        await warn(f"Не удалось загрузить файл {file_path}: {e}")
                         continue
         except asyncssh.Error as e:
-            error(f"Ошибка при массовой загрузке файлов: {e}")
+            await error(f"Ошибка при массовой загрузке файлов: {e}")
             raise SFTPConnectionError(f"Ошибка соединения: {e}") from e
 
     async def upload_mp3_file(self, file: io.BufferedReader, file_name = None) -> None:
@@ -78,9 +78,9 @@ class SFTPHandler:
             async with self._sftp_connection() as sftp:
                 async with sftp.open(remote_file_path, "wb") as remote_file:
                     await remote_file.write(file.read())
-                    info(f"Файл {file} успешно загружен на {remote_file_path}")
+                    await info(f"Файл {file} успешно загружен на {remote_file_path}")
         except asyncssh.SFTPError as e:
-            error(f"Ошибка загрузки файла {file} на сервер: {e}")
+            await error(f"Ошибка загрузки файла {file} на сервер: {e}")
             raise SFTPConnectionError(f"Не удалось загрузить файл на {file}") from e
 
     def get_file(self, file_path: str) -> Dict[str, Any]:
@@ -96,7 +96,7 @@ class SFTPHandler:
                 self._listdir_cache = await sftp.listdir(remote_path)
                 return self._listdir_cache
         except asyncssh.SFTPError as e:
-            error(f"Не удалось получить список директории {remote_path}: {e}")
+            await error(f"Не удалось получить список директории {remote_path}: {e}")
             raise
 
     def clear_cache(self) -> None:

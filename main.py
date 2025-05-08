@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 import io
+import sys
 
-from aiogram import Bot, Dispatcher, Router, types
+from aiogram import Bot, Dispatcher, Router, types, F
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.filters import Command
 from aiogram.fsm.storage.memory import MemoryStorage
 import asyncio
 
-from boot import config, debug, info, warn, error, critical
+from boot import config, debug, info, warn, error, critical, restart_program
 from mc_server_handler import StatsHandler, SFTPHandler
 
 # Создание классов для работы бота
@@ -26,6 +28,9 @@ SH: StatsHandler = StatsHandler(
    DL
 )
 
+async def admin_alert(alert: str):
+    for recipient in config["alert_recipient"]:
+        await bot.send_message(recipient, text=alert)
 
 @router.message(Command("start"))
 async def start_command(message: types.Message):
@@ -64,7 +69,20 @@ async def file_command(message: types.Message):
     except Exception as e:
         await bot.send_message(message.chat.id, f"При загрузке файла произошла ошибка: {e}")
 
+@router.message(Command("kill"))
+async def kill_command(message: types.Message):
+    await bot.send_message(message.chat.id, "Бот выключен")
+    await critical("Бот убит")
+    sys.exit(0)
+
+@router.message(Command("restart"))
+async def kill_command(message: types.Message):
+    await bot.send_message(message.chat.id, "Бот остановлен")
+    await critical("Бот остановлен")
+    restart_program()
+
 async def main():
+    await admin_alert("Бот запущен")
     dp.include_router(router)
     await SH.refresh_stats()
     await dp.start_polling(bot)

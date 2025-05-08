@@ -17,4 +17,4 @@ class RCONClient:
         try:
             return await asyncio.to_thread(_sync_rcon)
         except Exception as e:
-            error(f"{e}")
+            await error(f"{e}")

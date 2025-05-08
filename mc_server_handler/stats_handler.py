@@ -34,15 +34,15 @@ class StatsHandler:
             }
 
         except (ValueError, json.JSONDecodeError, SFTPConnectionError, IOError) as e:
-            error(f"Не удалось загрузить данные: {e}")
+            await error(f"Не удалось загрузить данные: {e}")
             raise
 
     async def refresh_stats(self) -> None:
         try:
             await self._load_all_data()
-            info("Статистика успешно обновлена")
+            await info("Статистика успешно обновлена")
         except (ValueError, json.JSONDecodeError, SFTPConnectionError, IOError) as e:
-            error(f"Не удалось обновить статистику: {e}")
+            await error(f"Не удалось обновить статистику: {e}")
             raise
 
     async def get_played_time(self) -> Dict[str, float]:
@@ -56,6 +56,6 @@ class StatsHandler:
                 play_time = data.get('stats', {}).get('minecraft:custom', {}).get('minecraft:play_time', 0)
                 stats[self.users[user_stats]] = round(play_time / 20 / 3600, 2)
             except (KeyError, ValueError) as e:
-                warn(f"Не удалось обработать статистику для {user_stats}: {e}")
+                await warn(f"Не удалось обработать статистику для {user_stats}: {e}")
                 continue
         return stats

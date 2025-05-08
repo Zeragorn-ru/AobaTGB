@@ -14,19 +14,18 @@ async def tgalert(level: str, alert: str):
         await bot.send_message(recipient, f"[{level}]: {alert}")
 
 
-def log(level: str, alert: str):
+async def log(level: str, alert: str):
     log_func = getattr(logging, level.lower(), logging.info)
     log_func(alert)
 
     if level_table[level] >= level_table[config["alert_level"]] and config["alert_enabled"]:
         try:
-            loop = asyncio.get_running_loop()
-            loop.create_task(tgalert(level, alert))
+            await tgalert(level, alert)
         except RuntimeError:
-            asyncio.run(tgalert(level, alert))
+            await tgalert(level, alert)
 
-def debug(alert: str): log("DEBUG", alert)
-def info(alert: str): log("INFO", alert)
-def warn(alert: str): log("WARN", alert)
-def error(alert: str): log("ERROR", alert)
-def critical(alert: str): log("CRITICAL", alert)
+async def debug(alert: str): await log("DEBUG", alert)
+async def info(alert: str): await log("INFO", alert)
+async def warn(alert: str): await log("WARN", alert)
+async def error(alert: str): await log("ERROR", alert)
+async def critical(alert: str): await log("CRITICAL", alert)
