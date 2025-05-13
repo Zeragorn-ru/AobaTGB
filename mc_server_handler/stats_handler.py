@@ -27,7 +27,6 @@ class StatsHandler:
             await self.downloader.bulk_json_load(file_paths)
 
             usercache = self.downloader.get_file("usercache.json")
-            self.users.clear()
             self.users = {
                 user["uuid"]: user["name"]
                 for user in usercache
@@ -58,4 +57,4 @@ class StatsHandler:
             except (KeyError, ValueError) as e:
                 await warn(f"Не удалось обработать статистику для {user_stats}: {e}")
                 continue
-        return stats
+        return sorted(stats.items(), key=lambda x: x[1], reverse=True)
