@@ -23,7 +23,7 @@ if not exists("config.json"):
 
 try:
     with open("config.json", "r", encoding="utf-8") as file:
-        config = json.load(file)
+        config: dict[str: any] = json.load(file)
         logging.info("config.json loaded successfully")
 
 except FileNotFoundError:
