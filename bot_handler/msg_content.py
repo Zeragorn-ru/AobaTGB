@@ -18,21 +18,24 @@ SH: StatsHandler = StatsHandler(
 class Msg:
     async def start(self) -> dict[str: any]:
         start_text:str = (
-            "Привет, я бот сервера aoba.lol\n\n"
-            "С помощью меня ты можешь\n"
+            "Привет, я бот сервера <b>aoba.lol</b>\n\n"
+            "С помощью меня ты можешь:\n"
             "• Посмотреть топ наигранного времени\n"
             "• Загрузить СВОЮ музыку на сервер\n(Прикрепите mp3 к сообщению \"/file\")\n"
-            "Планируется добавить:\n"
             "• Просмотр карты\n"
+            "Планируется добавить:\n"
             "• Получение скинов из TLauncher\'a\n"
             "• Просмотр онлайна\n"
+            "• Change log\n"
+            "• Гайды"
             "и многое другое!\n\n"
-            "Ver: 1.0.1c \ndev: @Zeragorn"
+            "Версия: <a href=\"https://github.com/Zeragorn-ru/AobaTGB\">1.0.2a</a> \nDev by <b>@Zeragorn</b>"
         )
 
         buttons: InlineKeyboardMarkup = InlineKeyboardMarkup(inline_keyboard=
         [
-            [InlineKeyboardButton(text="Топ наигранного времени", callback_data="top_played_time")]
+            [InlineKeyboardButton(text="Топ наигранного времени", callback_data="top_played_time")],
+            [InlineKeyboardButton(text="Карта", url="https://aoba.lol")]
         ]
         )
 

@@ -16,7 +16,10 @@ async def start_command(message: types.Message):
 
     await bot.send_message(message.chat.id,
                            text = start_msg_info["start_text"],
-                           reply_markup = start_msg_info["buttons"])
+                           reply_markup = start_msg_info["buttons"],
+                           parse_mode="HTML",
+                           disable_web_page_preview=True
+                           )
 
 @router.callback_query(F.data == "start")
 async def refresh_button(callback: CallbackQuery):
@@ -29,7 +32,9 @@ async def refresh_button(callback: CallbackQuery):
         chat_id=original_chat_id,
         message_id=original_message_id,
         text = start_msg_info["start_text"],
-        reply_markup=start_msg_info["buttons"]
+        reply_markup=start_msg_info["buttons"],
+        parse_mode="HTML",
+        disable_web_page_preview=True
     )
 
 @router.callback_query(F.data == "top_played_time")
@@ -43,7 +48,8 @@ async def refresh_button(callback: CallbackQuery):
         chat_id=original_chat_id,
         message_id=original_message_id,
         text = start_msg_info["top_played_time_text"],
-        reply_markup=start_msg_info["buttons"]
+        reply_markup=start_msg_info["buttons"],
+        parse_mode="HTML",
     )
 
 @router.callback_query(F.data == "refresh")
@@ -56,7 +62,8 @@ async def refresh_button(callback: CallbackQuery):
     await callback.bot.edit_message_text(
         chat_id=original_chat_id,
         message_id=original_message_id,
-        text=start_msg_info["top_played_time_text"]
+        text=start_msg_info["top_played_time_text"],
+        parse_mode="HTML"
     )
 
     # Отправляем новое сообщение о начале обновления
@@ -76,7 +83,8 @@ async def refresh_button(callback: CallbackQuery):
         chat_id=original_chat_id,
         message_id=original_message_id,
         text = start_msg_info["top_played_time_text"],
-        reply_markup=start_msg_info["buttons"]
+        reply_markup=start_msg_info["buttons"],
+        parse_mode="HTML"
     )
 
 
@@ -86,14 +94,17 @@ async def file_command(message: types.Message):
     start_msg_info = await bot_msg.file()
 
     if not message.audio:
-        await bot.send_message(message.chat.id, text=start_msg_info["file_not_found"])
+        await bot.send_message(message.chat.id, text=start_msg_info["file_not_found"],
+        parse_mode="HTML")
         return
 
     if message.audio.file_size > 20 * 1024 * 1024:
-        await bot.send_message(message.chat.id, text=start_msg_info["file_2_big"])
+        await bot.send_message(message.chat.id, text=start_msg_info["file_2_big"],
+        parse_mode="HTML")
         return
 
-    file_handler = await bot.send_message(message.chat.id, text=start_msg_info["file_handler"])
+    file_handler = await bot.send_message(message.chat.id, text=start_msg_info["file_handler"],
+        parse_mode="HTML")
     file:Audio = message.audio
     file_obj: File = await bot.get_file(file.file_id)
     file_path:str = file_obj.file_path
@@ -101,10 +112,13 @@ async def file_command(message: types.Message):
     file_name:str = file.file_name.replace(" ", "_")
 
     try:
-        start_load = await bot.send_message(message.chat.id, text=start_msg_info["start_load"])
+        start_load = await bot.send_message(message.chat.id, text=start_msg_info["start_load"],
+        parse_mode="HTML")
         await SFTP.upload_mp3_file(downloaded_file, file_name)
         end_load = await bot.send_message(message.chat.id, f"Файл\n \"{file_name}\" \nуспешно загружен\n\n"
-                                                              "!Это сообщение будет удалено через 10 секунд!")
+                                                              "!Это сообщение будет удалено через 10 секунд!",
+                                          parse_mode="HTML"
+                                          )
 
         await file_handler.delete()
         await start_load.delete()
@@ -124,7 +138,7 @@ async def kill_command(message: types.Message):
         return None
     await bot.send_message(message.chat.id, "Бот выключен")
     await critical("Бот убит")
-    sys.exit(0)
+    sys.exit(-1)
 
 @router.message(Command("restart"))
 async def kill_command(message: types.Message):
