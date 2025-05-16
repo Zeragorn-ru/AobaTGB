@@ -78,6 +78,8 @@ async def refresh_button(callback: CallbackQuery):
     # Уведомление пользователя о завершении обновления
     await callback.answer(start_msg_info["refresh_done_text"])
 
+    start_msg_info = await bot_msg.top_played_time()
+
     # Редактируем исходное сообщение
     await callback.bot.edit_message_text(
         chat_id=original_chat_id,
