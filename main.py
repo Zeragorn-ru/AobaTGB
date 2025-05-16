@@ -5,7 +5,7 @@ import sys
 from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.filters import Command
-from aiogram.types import Message
+from aiogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup
 import asyncio
 
 from boot import config, debug, info, warn, error, critical, restart_program
@@ -25,7 +25,9 @@ async def on_startup(dispatcher: Dispatcher):
 @router.message(Command("kill"))
 async def kill_command(message: Message):
     if message.chat.id not in config["alert_recipient"]:
-        await bot.send_message(message.chat.id, "403, not enough permissions")
+        await bot.send_message(message.chat.id, "403, not enough permissions",
+                               reply_markup=InlineKeyboardMarkup(inline_keyboard=[
+                                   [InlineKeyboardButton(text="Удалить сообщение", callback_data="delete")]]), )
         await message.delete()
         return None
     await bot.send_message(message.chat.id, "Бот выключен")

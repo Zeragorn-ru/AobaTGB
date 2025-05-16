@@ -35,7 +35,7 @@ class Msg:
             "• Онлайн-статистика\n"
             "• История изменений\n"
             "• Гайды и другое!\n\n"
-            "Версия: <a href=\"https://github.com/Zeragorn-ru/AobaTGB\">1.1.2a</a>\n"
+            "Версия: <a href=\"https://github.com/Zeragorn-ru/AobaTGB\">1.1.2b</a>\n"
             "<i>Dev by @Zeragorn</i>"
         )
 

@@ -102,24 +102,28 @@ async def file_command(message: types.Message):
     start_msg_info = await bot_msg.file()
 
     if not message.audio:
-        await bot.send_message(message.chat.id, text=start_msg_info["file_not_found"], parse_mode="HTML")
+        await message.delete()
+        await bot.send_message(message.chat.id, text=start_msg_info["file_not_found"], parse_mode="HTML",
+                               reply_markup=InlineKeyboardMarkup(inline_keyboard = [[InlineKeyboardButton(text="Удалить сообщение", callback_data="delete")]]),)
         return
 
     if message.audio.file_size > 20 * 1024 * 1024:
-        await bot.send_message(message.chat.id, text=start_msg_info["file_2_big"], parse_mode="HTML")
+        await message.delete()
+        await bot.send_message(message.chat.id, text=start_msg_info["file_2_big"], parse_mode="HTML",
+                               reply_markup=InlineKeyboardMarkup(inline_keyboard = [[InlineKeyboardButton(text="Удалить сообщение", callback_data="delete")]]))
         return
 
     file_handler = await bot.send_message(message.chat.id, text=start_msg_info["file_handler"], parse_mode="HTML")
 
-    file:Audio = message.audio
+    file: Audio = message.audio
 
     file_obj: File = await bot.get_file(file.file_id)
 
-    file_path:str = file_obj.file_path
+    file_path: str = file_obj.file_path
 
-    downloaded_file:io.BufferedReader = await bot.download_file(file_path)
+    downloaded_file: io.BufferedReader = await bot.download_file(file_path)
 
-    file_name:str = file.file_name.replace(" ", "_")
+    file_name: str = file.file_name.replace(" ", "_")
 
     try:
         start_load = await bot.send_message(message.chat.id, text=start_msg_info["start_load"], parse_mode="HTML")
@@ -137,17 +141,22 @@ async def file_command(message: types.Message):
         await message.delete()
 
     except Exception as e:
-        await bot.send_message(message.chat.id, f"При загрузке файла произошла ошибка: {e}")
+        await message.delete()
+        await bot.send_message(message.chat.id, f"При загрузке файла произошла ошибка: {e}", reply_markup=InlineKeyboardMarkup(inline_keyboard = [[InlineKeyboardButton(text="Удалить сообщение", callback_data="delete")]]))
 
 @router.callback_query(F.data == "delete")
 async def delete(callback: CallbackQuery):
-    await callback.message.delete()
+    try:
+        await callback.message.delete()
+    except Exception as e:
+        await error(e)
 
 @router.message(Command("restart"))
 async def kill_command(message: types.Message):
     bot = message.bot
     if message.chat.id not in config["alert_recipient"]:
-        await bot.send_message(message.chat.id, "403, not enough permissions")
+        await bot.send_message(message.chat.id, "403, not enough permissions",
+                               reply_markup=InlineKeyboardMarkup(inline_keyboard = [[InlineKeyboardButton(text="Удалить сообщение", callback_data="delete")]]),)
         await message.delete()
         return None
     await bot.send_message(message.chat.id, "Бот перезапускается")
