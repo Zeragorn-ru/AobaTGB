@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from mcipc.rcon.je import Client
 import asyncio
 

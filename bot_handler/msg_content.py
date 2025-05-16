@@ -1,8 +1,10 @@
+# -*- coding: utf-8 -*-
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
 
 from mc_server_handler import StatsHandler, SFTPHandler
 from boot import config
 
+# Настройка SFTP
 SFTP: SFTPHandler = SFTPHandler(
             host=config["host"],
             port=config["port"],
@@ -10,12 +12,16 @@ SFTP: SFTPHandler = SFTPHandler(
             password=config["password"]
         )
 
-# Класс статистики
+# Создание класса статы
 SH: StatsHandler = StatsHandler(
    SFTP
 )
 
+# Класс сообщений
 class Msg:
+    def __init__(self):
+        self.img = "./assets/icon.png"
+
     async def start(self) -> dict[str: any]:
         start_text:str = (
             "Привет, я бот сервера <b>aoba.lol</b>\n\n"
@@ -29,13 +35,13 @@ class Msg:
             "• Change log\n"
             "• Гайды"
             "и многое другое!\n\n"
-            "Версия: <a href=\"https://github.com/Zeragorn-ru/AobaTGB\">1.0.2a</a> \nDev by <b>@Zeragorn</b>"
+            "Версия: <a href=\"https://github.com/Zeragorn-ru/AobaTGB\">1.1.1b</a> \n<b>Dev by @Zeragorn</b>"
         )
 
         buttons: InlineKeyboardMarkup = InlineKeyboardMarkup(inline_keyboard=
         [
             [InlineKeyboardButton(text="Топ наигранного времени", callback_data="top_played_time")],
-            [InlineKeyboardButton(text="Карта", url="https://aoba.lol")]
+            [InlineKeyboardButton(text="Карта", url="https://aoba.lol/")]
         ]
         )
 
@@ -51,9 +57,9 @@ class Msg:
 
         top_played_time_text: str = (
             "Топ наигранного времени:\n"
-            "===========================\n"
+            "========================\n"
             f"{played_time_formated}\n"
-            "===========================\n"
+            "========================\n"
         )
 
         refresh_start_text = "Начато обновление статистики, пожалуйста подождите"

@@ -4,8 +4,9 @@ import sys
 
 from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
+from aiogram.filters import Command
+from aiogram.types import Message
 import asyncio
-import multiprocessing
 
 from boot import config, debug, info, warn, error, critical, restart_program
 from mc_server_handler import StatsHandler, SFTPHandler
@@ -18,8 +19,22 @@ async def admin_alert(alert: str):
     for recipient in config["alert_recipient"]:
         await bot.send_message(recipient, text=alert)
 
-async def main():
+async def on_startup(dispatcher: Dispatcher):
     await admin_alert("Бот запущен")
+
+@router.message(Command("kill"))
+async def kill_command(message: Message):
+    if message.chat.id not in config["alert_recipient"]:
+        await bot.send_message(message.chat.id, "403, not enough permissions")
+        await message.delete()
+        return None
+    await bot.send_message(message.chat.id, "Бот выключен")
+    await critical("Бот убит")
+    await dp.stop_polling()
+    raise sys.exit(0)
+
+async def main():
+    dp.startup.register(on_startup)
     dp.include_router(router)
     await SH.refresh_stats()
     await dp.start_polling(bot)
