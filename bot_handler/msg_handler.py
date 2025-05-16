@@ -124,11 +124,11 @@ async def file_command(message: types.Message):
     try:
         start_load = await bot.send_message(message.chat.id, text=start_msg_info["start_load"], parse_mode="HTML")
         await SFTP.upload_mp3_file(downloaded_file, file_name)
-        end_load = await bot.send_message(
+        await bot.send_message(
             message.chat.id,
             text=
-            "Файл\n \"{file_name}\" \nуспешно загружен\n\n"
-            "!Это сообщение будет удалено через 10 секунд!",
+            f"Файл\n \"{file_name}\" \nуспешно загружен",
+            reply_markup=InlineKeyboardMarkup(inline_keyboard = [[InlineKeyboardButton(text="Удалить сообщение", callback_data="delete")]]),
             parse_mode="HTML"
         )
 
@@ -138,6 +138,10 @@ async def file_command(message: types.Message):
 
     except Exception as e:
         await bot.send_message(message.chat.id, f"При загрузке файла произошла ошибка: {e}")
+
+@router.callback_query(F.data == "delete")
+async def delete(callback: CallbackQuery):
+    await callback.message.delete()
 
 @router.message(Command("restart"))
 async def kill_command(message: types.Message):
