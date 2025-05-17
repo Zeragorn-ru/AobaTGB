@@ -3,3 +3,5 @@ Log.log
 config.json
 __pycache__
 .idea
+shrimp*.png
+celp.png
