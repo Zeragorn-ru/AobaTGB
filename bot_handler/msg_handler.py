@@ -79,25 +79,19 @@ async def refresh_button(callback: CallbackQuery):
     try:
         await SH.refresh_stats()
     except Exception as e:
-        await callback.bot.send_message(original_chat_id, f"При обновлении статистики возникла ошибка, сообщите @Zeragorn")
-    finally:
-        await start_update_msg.delete()
-        await callback.bot.edit_message_caption(
-            chat_id=original_chat_id,
-            message_id=original_message_id,
-            caption=start_msg_info["top_played_time_text"],
-            reply_markup=start_msg_info["buttons"],
-            parse_mode="HTML"
-        )
-    # Удаляем сообщение о процессе
+        await callback.bot.send_message(original_chat_id, f"При обновлении статистики возникла ошибка, сообщите @Zeragorn: {e}")
+
     await start_update_msg.delete()
-
-    # Уведомление пользователя о завершении обновления
-    await callback.answer(start_msg_info["refresh_done_text"])
-
     start_msg_info = await bot_msg.top_played_time()
+    await callback.bot.edit_message_caption(
+        chat_id=original_chat_id,
+        message_id=original_message_id,
+        caption=start_msg_info["top_played_time_text"],
+        reply_markup=start_msg_info["buttons"],
+        parse_mode="HTML"
+    )
 
-    # Редактируем исходное сообщение
+    await callback.answer(start_msg_info["refresh_done_text"])
 
 
 

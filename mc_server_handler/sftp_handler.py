@@ -41,7 +41,7 @@ class SFTPHandler:
             ) as conn:
                 async with conn.start_sftp_client() as sftp:
                     yield sftp
-        except asyncssh.Error as e:
+        except Exception as e:
             await error(f"Ошибка подключения SFTP: {e}")
             raise SFTPConnectionError(f"Не удалось подключиться к {self.host}:{self.port}") from e
 
