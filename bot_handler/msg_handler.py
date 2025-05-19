@@ -76,8 +76,19 @@ async def refresh_button(callback: CallbackQuery):
     start_update_msg = await callback.message.answer(start_msg_info["refresh_start_text"])
 
     # Обновление статистики
-    await SH.refresh_stats()
-
+    try:
+        await SH.refresh_stats()
+    except Exception as e:
+        await callback.bot.send_message(original_chat_id, f"При обновлении статистики возникла ошибка, сообщите @Zeragorn")
+    finally:
+        await start_update_msg.delete()
+        await callback.bot.edit_message_caption(
+            chat_id=original_chat_id,
+            message_id=original_message_id,
+            caption=start_msg_info["top_played_time_text"],
+            reply_markup=start_msg_info["buttons"],
+            parse_mode="HTML"
+        )
     # Удаляем сообщение о процессе
     await start_update_msg.delete()
 
@@ -87,13 +98,7 @@ async def refresh_button(callback: CallbackQuery):
     start_msg_info = await bot_msg.top_played_time()
 
     # Редактируем исходное сообщение
-    await callback.bot.edit_message_caption(
-        chat_id=original_chat_id,
-        message_id=original_message_id,
-        caption = start_msg_info["top_played_time_text"],
-        reply_markup=start_msg_info["buttons"],
-        parse_mode="HTML"
-    )
+
 
 
 @router.message(Command("file"))

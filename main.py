@@ -38,7 +38,12 @@ async def kill_command(message: Message):
 async def main():
     dp.startup.register(on_startup)
     dp.include_router(router)
-    await SH.refresh_stats()
+
+    try:
+        await SH.refresh_stats()
+    except Exception as e:
+        await admin_alert(f"При загрузке статистики произошла ошибка:{e}")
+
     await dp.start_polling(bot)
 
 

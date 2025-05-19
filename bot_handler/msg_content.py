@@ -2,20 +2,24 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
 
 from mc_server_handler import StatsHandler, SFTPHandler
-from boot import config
+from boot import config, error
 
 # Настройка SFTP
-SFTP: SFTPHandler = SFTPHandler(
-            host=config["host"],
-            port=config["port"],
-            username=config["username"],
-            password=config["password"]
-        )
+try:
+    SFTP: SFTPHandler = SFTPHandler(
+                host=config["host"],
+                port=config["port"],
+                username=config["username"],
+                password=config["password"]
+            )
 
+    SH: StatsHandler = StatsHandler(
+        SFTP
+    )
+except Exception as e:
+    error(f"При создании SFTP соединения произошла ошибка: {e}")
 # Создание класса статы
-SH: StatsHandler = StatsHandler(
-   SFTP
-)
+
 
 # Класс сообщений
 class Msg:
@@ -35,7 +39,7 @@ class Msg:
             "• Онлайн-статистика\n"
             "• История изменений\n"
             "• Гайды и другое!\n\n"
-            "Версия: <a href=\"https://github.com/Zeragorn-ru/AobaTGB\">1.1.2b</a>\n"
+            "Версия: <a href=\"https://github.com/Zeragorn-ru/AobaTGB\">1.1.4a</a>\n"
             "<i>Dev by @Zeragorn</i>"
         )
 

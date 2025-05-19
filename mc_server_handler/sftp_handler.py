@@ -4,6 +4,7 @@ import os
 from contextlib import asynccontextmanager
 from typing import List, Optional, Dict, Any
 import io
+import asyncio
 
 import asyncssh
 from asyncssh import connect
@@ -29,12 +30,14 @@ class SFTPHandler:
     async def _sftp_connection(self):
         """Асинхронный контекстный менеджер для управления SFTP-соединениями."""
         try:
-            async with connect(
+            async with await asyncio.wait_for(connect(
                 host=self.host,
                 port=self.port,
                 username=self.username,
                 password=self.password,
                 known_hosts=None
+            ),
+                timeout=5
             ) as conn:
                 async with conn.start_sftp_client() as sftp:
                     yield sftp
