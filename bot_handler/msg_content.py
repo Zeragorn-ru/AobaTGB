@@ -39,12 +39,15 @@ class Msg:
             "• Онлайн-статистика\n"
             "• История изменений\n"
             "• Гайды и другое!\n\n"
-            "Версия: <a href=\"https://github.com/Zeragorn-ru/AobaTGB\">1.1.4b</a>\n"
+            "Версия: <a href=\"https://github.com/Zeragorn-ru/AobaTGB\">1.2.1a</a>\n"
             "<i>Dev by @Zeragorn</i>"
         )
 
         buttons = InlineKeyboardMarkup(inline_keyboard=[
-            [InlineKeyboardButton(text="🕒 Топ времени", callback_data="top_played_time")],
+            [
+                InlineKeyboardButton(text="🕒 Топ времени", callback_data="top_played_time"),
+                InlineKeyboardButton(text="📕 Гайды", callback_data="guides")
+            ],
             [InlineKeyboardButton(text="🗺️ Карта", url="https://aoba.lol/")]
         ])
 

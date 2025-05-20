@@ -37,7 +37,7 @@ class SFTPHandler:
                 password=self.password,
                 known_hosts=None
             ),
-                timeout=5
+                timeout=10
             ) as conn:
                 async with conn.start_sftp_client() as sftp:
                     yield sftp
