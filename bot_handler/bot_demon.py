@@ -13,6 +13,7 @@ from boot import debug, info, warn, error, critical, config, restart_program
 
 router: Router = Router()
 bot_msg = Msg()
+
 dp: Dispatcher= Dispatcher(storage = MemoryStorage())
 
 @router.message(Command("kill"))

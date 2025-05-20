@@ -24,6 +24,7 @@ async def refresh_button(callback: CallbackQuery):
         reply_markup=start_msg_info["buttons"],
         parse_mode="HTML",
     )
+    await callback.answer("")
 
 @router.callback_query(F.data == "refresh")
 async def refresh_button(callback: CallbackQuery):
