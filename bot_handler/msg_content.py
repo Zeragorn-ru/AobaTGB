@@ -39,7 +39,7 @@ class Msg:
             "• Онлайн-статистика\n"
             "• История изменений\n"
             "• Гайды \nИ другое!\n\n"
-            "Версия: <a href=\"https://github.com/Zeragorn-ru/AobaTGB\">1.2.3a</a>\n"
+            "Версия: <a href=\"https://github.com/Zeragorn-ru/AobaTGB\">1.3.1a</a>\n"
             "<i>Dev by @Zeragorn</i>"
         )
 
@@ -106,6 +106,83 @@ class Msg:
         buttons = InlineKeyboardMarkup(inline_keyboard=[
             [InlineKeyboardButton(text="🪄 Палочка отладки", callback_data="debug_stick")],
             [InlineKeyboardButton(text="<- Назад", callback_data="start")]
+        ])
+
+        return {
+            "text": text,
+            "buttons": buttons
+        }
+
+    async def debug_stick_craft(self) -> dict[str: str]:
+        text = ("🪄 Палочка отладки - <b>Крафт</b>\n\n"
+                "Ресурсы:\n"
+                "• Алмаз - 1\n"
+                "• Палка - 2"
+                )
+
+        buttons = InlineKeyboardMarkup(inline_keyboard=[
+            [InlineKeyboardButton(text="Информация", callback_data="debug_stick"), InlineKeyboardButton(text="Применение", callback_data="debug_stick_use")],
+            [InlineKeyboardButton(text="Пример", callback_data="debug_stick_example")],
+            [InlineKeyboardButton(text="Главная", callback_data="start"),
+             InlineKeyboardButton(text="Гайды", callback_data="guides")]
+        ])
+
+        return {
+            "text": text,
+            "buttons": buttons
+        }
+    async def debug_stick(self) -> dict[str: str]:
+        text = ("🪄 Палочка отладки - <b>Информация</b>\n\n"
+                "Палочка отладки - мощный инструмент в умелых руках. Она может менять состояние болоков, такие как: поворот, затопленость, горение и тд"
+                )
+
+        buttons = InlineKeyboardMarkup(inline_keyboard=[
+            [InlineKeyboardButton(text="Крафт", callback_data="debug_stick_craft"), InlineKeyboardButton(text="Применение", callback_data="debug_stick_use")],
+            [InlineKeyboardButton(text="Пример", callback_data="debug_stick_example")],
+            [InlineKeyboardButton(text="Главная", callback_data="start"),
+             InlineKeyboardButton(text="Гайды", callback_data="guides")]
+        ])
+
+        return {
+            "text": text,
+            "buttons": buttons
+        }
+
+    async def debug_stick_example(self) -> dict[str: str]:
+        text = ("🪄 Палочка отладки - <b>Пример</b>\n\n"
+                "Как видно на картинке:\n"
+                "• Zeragorn выбрал состояние ЛКМ\n"
+                "• А затем изменил его с False на True\n\n"
+                "Таким образом с западной стороны забора появилось соединение, которое натурально там находиться не могло"
+                )
+
+        buttons = InlineKeyboardMarkup(inline_keyboard=[
+            [InlineKeyboardButton(text="Крафт", callback_data="debug_stick_craft"), InlineKeyboardButton(text="Применение", callback_data="debug_stick_use")],
+            [InlineKeyboardButton(text="Описание", callback_data="debug_stick")],
+            [InlineKeyboardButton(text="Главная", callback_data="start"),
+             InlineKeyboardButton(text="Гайды", callback_data="guides")]
+        ])
+
+        return {
+            "text": text,
+            "buttons": buttons
+        }
+
+    async def debug_stick_use(self) -> dict[str: str]:
+        text = ("🪄 Палочка отладки - <b>Применение</b>\n\n"
+                "Палочка отладки позволяет менять <a href=\"https://minecraft.fandom.com/ru/wiki/%D0%A1%D0%BE%D1%81%D1%82%D0%BE%D1%8F%D0%BD%D0%B8%D1%8F_%D0%B1%D0%BB%D0%BE%D0%BA%D0%BE%D0%B2\">состояния</a>\n"
+                "блоков, что делает ее незаменимым инструментом в декоре и строительстве\n\n"
+                "Применение:\n"
+                "• При клике ЛКМ по блоку меняется состояние\n"
+                "• При клике ПКМ по блоку меняется значение выбранного состояние\n"
+                "• При использовании вместе с кнопкой приседания значения и состояния переключаются в обратном порядке"
+                )
+
+        buttons = InlineKeyboardMarkup(inline_keyboard=[
+            [InlineKeyboardButton(text="Крафт", callback_data="debug_stick_craft"), InlineKeyboardButton(text="Пример", callback_data="debug_stick_example")],
+            [InlineKeyboardButton(text="Описание", callback_data="debug_stick")],
+            [InlineKeyboardButton(text="Главная", callback_data="start"),
+             InlineKeyboardButton(text="Гайды", callback_data="guides")]
         ])
 
         return {
