@@ -6,3 +6,4 @@ __pycache__
 shrimp*.png
 celp.png
 _*.*
+.venv
