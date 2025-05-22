@@ -39,7 +39,7 @@ class Msg:
             "• Просмотр онлайна\n"
             "• История изменений\n"
             "• Гайды \nИ другое!\n\n"
-            "Версия: <a href=\"https://github.com/Zeragorn-ru/AobaTGB\">1.3.1b</a>\n"
+            "Версия: <a href=\"https://github.com/Zeragorn-ru/AobaTGB\">1.3.2a</a>\n"
             "<i>Dev by @Zeragorn</i>"
         )
 
@@ -121,8 +121,9 @@ class Msg:
                 )
 
         buttons = InlineKeyboardMarkup(inline_keyboard=[
-            [InlineKeyboardButton(text="Информация", callback_data="debug_stick"), InlineKeyboardButton(text="Применение", callback_data="debug_stick_use")],
-            [InlineKeyboardButton(text="Пример", callback_data="debug_stick_example")],
+            [InlineKeyboardButton(text="Информация", callback_data="debug_stick"),
+             InlineKeyboardButton(text="Применение", callback_data="debug_stick_use"),
+             InlineKeyboardButton(text="Пример", callback_data="debug_stick_example")],
             [InlineKeyboardButton(text="Главная", callback_data="start"),
              InlineKeyboardButton(text="Гайды", callback_data="guides")]
         ])
@@ -137,8 +138,9 @@ class Msg:
                 )
 
         buttons = InlineKeyboardMarkup(inline_keyboard=[
-            [InlineKeyboardButton(text="Крафт", callback_data="debug_stick_craft"), InlineKeyboardButton(text="Применение", callback_data="debug_stick_use")],
-            [InlineKeyboardButton(text="Пример", callback_data="debug_stick_example")],
+            [InlineKeyboardButton(text="Крафт", callback_data="debug_stick_craft"),
+             InlineKeyboardButton(text="Применение", callback_data="debug_stick_use"),
+             InlineKeyboardButton(text="Пример", callback_data="debug_stick_example")],
             [InlineKeyboardButton(text="Главная", callback_data="start"),
              InlineKeyboardButton(text="Гайды", callback_data="guides")]
         ])
@@ -157,8 +159,9 @@ class Msg:
                 )
 
         buttons = InlineKeyboardMarkup(inline_keyboard=[
-            [InlineKeyboardButton(text="Крафт", callback_data="debug_stick_craft"), InlineKeyboardButton(text="Применение", callback_data="debug_stick_use")],
-            [InlineKeyboardButton(text="Описание", callback_data="debug_stick")],
+            [InlineKeyboardButton(text="Крафт", callback_data="debug_stick_craft"),
+             InlineKeyboardButton(text="Применение", callback_data="debug_stick_use"),
+             InlineKeyboardButton(text="Описание", callback_data="debug_stick")],
             [InlineKeyboardButton(text="Главная", callback_data="start"),
              InlineKeyboardButton(text="Гайды", callback_data="guides")]
         ])
@@ -179,8 +182,9 @@ class Msg:
                 )
 
         buttons = InlineKeyboardMarkup(inline_keyboard=[
-            [InlineKeyboardButton(text="Крафт", callback_data="debug_stick_craft"), InlineKeyboardButton(text="Пример", callback_data="debug_stick_example")],
-            [InlineKeyboardButton(text="Описание", callback_data="debug_stick")],
+            [InlineKeyboardButton(text="Крафт", callback_data="debug_stick_craft"),
+             InlineKeyboardButton(text="Пример", callback_data="debug_stick_example"),
+             InlineKeyboardButton(text="Описание", callback_data="debug_stick")],
             [InlineKeyboardButton(text="Главная", callback_data="start"),
              InlineKeyboardButton(text="Гайды", callback_data="guides")]
         ])
