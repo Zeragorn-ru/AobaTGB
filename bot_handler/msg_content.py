@@ -39,7 +39,7 @@ class Msg:
             "• Просмотр онлайна\n"
             "• История изменений\n"
             "• Гайды \nИ другое!\n\n"
-            "Версия: <a href=\"https://github.com/Zeragorn-ru/AobaTGB\">1.3.2a</a>\n"
+            "Версия: <a href=\"https://github.com/Zeragorn-ru/AobaTGB\">1.3.3a</a>\n"
             "<i>Dev by @Zeragorn</i>"
         )
 
@@ -48,6 +48,7 @@ class Msg:
                 InlineKeyboardButton(text="🕒 Топ времени", callback_data="top_played_time"),
                 InlineKeyboardButton(text="📕 Гайды [WIP]", callback_data="guides")
             ],
+            [InlineKeyboardButton(text="❤ Спасибо <3", callback_data="gratitude")],
             [InlineKeyboardButton(text="🗺️ Карта", url="https://aoba.lol/")]
         ])
 
@@ -188,6 +189,23 @@ class Msg:
             [InlineKeyboardButton(text="Главная", callback_data="start"),
              InlineKeyboardButton(text="Гайды", callback_data="guides")]
         ])
+
+        return {
+            "text": text,
+            "buttons": buttons
+        }
+    async def gratitude(self) -> dict[str: str]:
+        text = ("""
+        Спасибо вам за всё, что вы сделали для меня ❤
+
+• Sonazavar209 — за инструменты и поддержку в разработке проекта
+• Pamela — за моральную и финансовую помощь, а также за конструктивную критику
+• Clown_505 — за поддержку и тёплые отзывы о моей работе
+
+Отдельное спасибо Omlettik'у — именно ты уговорил запустить первый сервер
+        """)
+
+        buttons = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="<- Назад 💜", callback_data="start")]])
 
         return {
             "text": text,
