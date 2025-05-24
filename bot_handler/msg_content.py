@@ -203,6 +203,8 @@ class Msg:
 • Clown_505 — за поддержку и тёплые отзывы о моей работе
 
 Отдельное спасибо Omlettik'у — именно ты уговорил запустить первый сервер
+
+https://youtu.be/oEdWItlDv5M?si=pu8CabDOdbZl89QY
         """)
 
         buttons = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="<- Назад 💜", callback_data="start")]])
