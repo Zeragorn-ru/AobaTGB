@@ -49,7 +49,13 @@ async def refresh_button(callback: CallbackQuery):
     try:
         await SH.refresh_stats()
     except Exception as e:
-        await callback.bot.send_message(original_chat_id, f"При обновлении статистики возникла ошибка, сообщите @Zeragorn: {e}")
+        await callback.bot.send_message(original_chat_id, f"При обновлении статистики возникла ошибка, сообщите @Zeragorn: {e}",
+                                        reply_markup=InlineKeyboardMarkup(inline_keyboard=[
+                                            [InlineKeyboardButton(text="Удалить сообщение", callback_data="delete")]
+                                        ])
+                                        )
+        await error(f"У пользователя [{callback.from_user.first_name} / @{callback.from_user.username}], произошла ошибка: {e}")
+
 
 # Обновление сообщения
     await start_update_msg.delete()

@@ -19,9 +19,12 @@ dp: Dispatcher= Dispatcher(storage = MemoryStorage())
 @router.message(Command("kill"))
 async def kill_command(message: Message):
     if message.chat.id not in config["alert_recipient"]:
-        await message.bot.send_message(message.chat.id, "403, not enough permissions",
-                               reply_markup=InlineKeyboardMarkup(inline_keyboard=[
-                                   [InlineKeyboardButton(text="Удалить сообщение", callback_data="delete")]]), )
+        await message.bot.send_message(
+            message.chat.id, "403, not enough permissions",
+            reply_markup=InlineKeyboardMarkup(inline_keyboard=[
+                [InlineKeyboardButton(text="Удалить сообщение", callback_data="delete")]
+            ]),
+        )
         await message.delete()
         return None
     await message.bot.send_message(message.chat.id, "Бот выключен")

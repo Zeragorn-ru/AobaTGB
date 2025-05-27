@@ -42,7 +42,7 @@ class SFTPHandler:
                 async with conn.start_sftp_client() as sftp:
                     yield sftp
         except Exception as e:
-            await error(f"Ошибка подключения SFTP: {e}")
+            await error("Произшла ошибка при создании контекстного менеджера SFTP: {e}", send_alert = False)
             raise SFTPConnectionError(f"Не удалось подключиться к {self.host}:{self.port}") from e
 
     async def json_file_load(self, file_path: str) -> None:

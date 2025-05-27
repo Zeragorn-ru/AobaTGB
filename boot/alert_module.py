@@ -14,11 +14,11 @@ async def tgalert(level: str, alert: str):
         await bot.send_message(recipient, f"[{level}]: {alert}")
 
 
-async def log(level: str, alert: str):
+async def log(level: str, alert: str, send_alert: bool = True):
     log_func = getattr(logging, level.lower(), logging.info)
     log_func(alert)
 
-    if level_table[level] >= level_table[config["alert_level"]] and config["alert_enabled"]:
+    if level_table[level] >= level_table[config["alert_level"]] and config["alert_enabled"] and send_alert:
         try:
             await tgalert(level, alert)
         except RuntimeError:

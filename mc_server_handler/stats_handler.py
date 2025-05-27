@@ -32,17 +32,17 @@ class StatsHandler:
                 for user in usercache
             }
 
-        except (ValueError, json.JSONDecodeError, SFTPConnectionError, IOError) as e:
-            await error(f"Не удалось загрузить данные: {e}")
-            raise
+        except Exception as e:
+            await error("Произошла ошибка при загрузке данных: {e}", send_alert = False)
+            raise e
 
     async def refresh_stats(self) -> None:
         try:
             await self._load_all_data()
             await info("Статистика успешно обновлена")
-        except (ValueError, json.JSONDecodeError, SFTPConnectionError, IOError) as e:
-            await error(f"Не удалось обновить статистику: {e}")
-            raise
+        except Exception as e:
+            await error("Произошла ошибка при обновлении статистики в классе обработки статистики: {e}", send_alert = False)
+            raise e
 
     async def get_played_time(self) -> Dict[str, float]:
         """Расчет времени игры для каждого пользователя в часах."""
