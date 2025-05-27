@@ -24,8 +24,8 @@ async def log(level: str, alert: str, send_alert: bool = True):
         except RuntimeError:
             await tgalert(level, alert)
 
-async def debug(alert: str): await log("DEBUG", alert)
-async def info(alert: str): await log("INFO", alert)
-async def warn(alert: str): await log("WARN", alert)
-async def error(alert: str): await log("ERROR", alert)
-async def critical(alert: str): await log("CRITICAL", alert)
+async def debug(alert: str, send_alert: bool = True): await log("DEBUG", alert, send_alert)
+async def info(alert: str, send_alert: bool = True): await log("INFO", alert, send_alert)
+async def warn(alert: str, send_alert: bool = True): await log("WARN", alert, send_alert)
+async def error(alert: str, send_alert: bool = True): await log("ERROR", alert, send_alert)
+async def critical(alert: str, send_alert: bool = True): await log("CRITICAL", alert, send_alert)
