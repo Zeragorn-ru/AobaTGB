@@ -45,3 +45,5 @@ async def refresh_button(callback: CallbackQuery):
         media=start_content,
         reply_markup=start_msg_info["buttons"]
     )
+    
+    await callback.answer("")
