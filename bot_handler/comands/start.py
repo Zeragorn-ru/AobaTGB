@@ -48,3 +48,5 @@ async def refresh_button(callback: CallbackQuery, state: FSMContext) -> None:
         media=start_content,
         reply_markup=start_msg_info["buttons"]
     )
+    
+    await callback.answer("")
