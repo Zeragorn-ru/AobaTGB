@@ -17,7 +17,7 @@ bot_msg = Msg()
 dp: Dispatcher= Dispatcher(storage = MemoryStorage())
 
 @router.message(Command("kill"))
-async def kill_command(message: Message):
+async def kill_command(message: Message) -> None:
     if message.chat.id not in config["alert_recipient"]:
         await message.bot.send_message(
             message.chat.id, "403, not enough permissions",
@@ -33,18 +33,18 @@ async def kill_command(message: Message):
     raise sys.exit(0)
 
 @router.callback_query(F.data == "delete")
-async def delete(callback: CallbackQuery):
+async def delete(callback: CallbackQuery) -> None:
     try:
         await callback.message.delete()
     except Exception as e:
         await error(e)
 
 @router.message(Command("restart"))
-async def kill_command(message: Message):
+async def kill_command(message: Message) -> None:
     bot = message.bot
     if message.chat.id not in config["alert_recipient"]:
         await bot.send_message(message.chat.id, "403, not enough permissions",
-                               reply_markup=InlineKeyboardMarkup(inline_keyboard = [[InlineKeyboardButton(text="Удалить сообщение", callback_data="delete")]]),)
+                               reply_markup=InlineKeyboardMarkup(inline_keyboard = [[InlineKeyboardButton(text="Удалить сообщение", callback_data="delete")]]))
         await message.delete()
         return None
     await bot.send_message(message.chat.id, "Бот перезапускается")

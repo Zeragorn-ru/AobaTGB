@@ -11,7 +11,7 @@ router: Router = Router()
 bot_content = Msg()
 
 @router.callback_query(F.data == "debug_stick")
-async def debug_stick(callback: CallbackQuery):
+async def debug_stick(callback: CallbackQuery) -> None:
     original_chat_id = callback.message.chat.id
     original_message_id = callback.message.message_id
     content = await bot_content.debug_stick()
@@ -32,7 +32,7 @@ async def debug_stick(callback: CallbackQuery):
     await callback.answer("")
 
 @router.callback_query(F.data == "debug_stick_craft")
-async def debug_stick(callback: CallbackQuery):
+async def debug_stick(callback: CallbackQuery) -> None:
     original_chat_id = callback.message.chat.id
     original_message_id = callback.message.message_id
     content = await bot_content.debug_stick_craft()
@@ -53,7 +53,7 @@ async def debug_stick(callback: CallbackQuery):
     await callback.answer("")
 
 @router.callback_query(F.data == "debug_stick_example")
-async def debug_stick(callback: CallbackQuery):
+async def debug_stick(callback: CallbackQuery) -> None:
     original_chat_id = callback.message.chat.id
     original_message_id = callback.message.message_id
     content = await bot_content.debug_stick_example()
@@ -74,7 +74,7 @@ async def debug_stick(callback: CallbackQuery):
     await callback.answer("")
 
 @router.callback_query(F.data == "debug_stick_use")
-async def debug_stick(callback: CallbackQuery):
+async def debug_stick(callback: CallbackQuery) -> None:
     original_chat_id = callback.message.chat.id
     original_message_id = callback.message.message_id
     content = await bot_content.debug_stick_use()

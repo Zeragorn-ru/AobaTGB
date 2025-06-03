@@ -13,18 +13,18 @@ from bot_handler import SH, routers, dp
 # Создание классов для работы бота
 bot: Bot = Bot(token = config["bot_token"]) # Создание класса бота
 
-async def admin_alert(alert: str):
+async def admin_alert(alert: str) -> None:
     for recipient in config["alert_recipient"]:
         await bot.send_message(recipient, text=alert)
 
-async def on_startup(dispatcher: Dispatcher):
+async def on_startup(dispatcher: Dispatcher) -> None:
     await admin_alert("Бот запущен")
 
-def routers_register(routers: list):
+def routers_register(routers: list) -> None:
     for router in routers:
         dp.include_router(router)
 
-async def main():
+async def main() -> None:
     dp.startup.register(on_startup)
     routers_register(routers)
     try:

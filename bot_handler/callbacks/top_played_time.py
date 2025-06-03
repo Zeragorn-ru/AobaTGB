@@ -11,7 +11,7 @@ router: Router = Router()
 bot_msg = Msg()
 
 @router.callback_query(F.data == "top_played_time")
-async def refresh_button(callback: CallbackQuery):
+async def refresh_button(callback: CallbackQuery) -> None:
     start_msg_info = await bot_msg.top_played_time()
 
     original_message_id = callback.message.message_id
@@ -27,7 +27,7 @@ async def refresh_button(callback: CallbackQuery):
     await callback.answer("")
 
 @router.callback_query(F.data == "refresh")
-async def refresh_button(callback: CallbackQuery):
+async def refresh_button(callback: CallbackQuery) -> None:
     start_msg_info = await bot_msg.top_played_time()
 
     # Сохраняем исходное сообщение

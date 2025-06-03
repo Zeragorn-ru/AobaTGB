@@ -5,6 +5,7 @@ import asyncio
 from aiogram import Bot, Router, types, F
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery, FSInputFile, InputMediaPhoto
 from aiogram.filters import Command
+from aiogram.fsm.context import FSMContext
 
 from bot_handler.msg_content import Msg
 from boot import debug, info, warn, error, critical
@@ -14,7 +15,8 @@ bot_msg = Msg()
 file = FSInputFile(bot_msg.img)
 
 @router.message(Command("start"))
-async def start_command(message: types.Message):
+async def start_command(message: types.Message, state: FSMContext) -> None:
+    await state.clear()
     bot = message.bot
     start_msg_info = await bot_msg.start()
 
@@ -27,7 +29,8 @@ async def start_command(message: types.Message):
     )
 
 @router.callback_query(F.data == "start")
-async def refresh_button(callback: CallbackQuery):
+async def refresh_button(callback: CallbackQuery, state: FSMContext) -> None:
+    await state.clear()
     start_msg_info = await bot_msg.start()
 
     original_message_id = callback.message.message_id

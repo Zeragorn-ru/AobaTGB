@@ -11,7 +11,7 @@ router: Router = Router()
 bot_msg = Msg()
 
 @router.message(Command("file"))
-async def file_command(message: Message):
+async def file_command(message: Message) -> None:
     bot = message.bot
     start_msg_info = await bot_msg.file()
 

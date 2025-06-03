@@ -12,7 +12,7 @@ bot_content = Msg()
 file = FSInputFile("./assets/guides_icon.png")
 
 @router.callback_query(F.data == "guides")
-async def guides(callback: CallbackQuery):
+async def guides(callback: CallbackQuery) -> None:
     original_chat_id = callback.message.chat.id
     original_message_id = callback.message.message_id
     content = await bot_content.guides()

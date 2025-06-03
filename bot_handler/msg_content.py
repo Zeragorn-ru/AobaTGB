@@ -26,20 +26,20 @@ class Msg:
     def __init__(self):
         self.img = "./assets/icon.png"
 
-    async def start(self) -> dict[str, any]:
+    async def start(self) -> dict[str, any, str: InlineKeyboardMarkup]:
         start_text: str = (
             "<b>Привет!</b> Я бот сервера <b><a href='https://aoba.lol'>aoba.lol</a></b>\n\n"
             "Вот что я умею:\n"
             "🕒 <b>Топ по наигранному времени</b>\n"
             "🎵 <b>Загрузка своей музыки</b>\n"
             "(Прикрепи .mp3 к сообщению с командой <code>/file</code>)\n"
+            "👔 <b>Скины из TLauncher</b>\n"
             "🗺️ <b>Просмотр карты</b>\n\n"
             "🚧 <b>Планируется:</b>\n"
-            "• Скины из TLauncher\n"
             "• Просмотр онлайна\n"
             "• История изменений\n"
             "• Гайды \nИ другое!\n\n"
-            "Версия: <a href=\"https://github.com/Zeragorn-ru/AobaTGB\">1.3.4a</a>\n"
+            "Версия: <a href=\"https://github.com/Zeragorn-ru/AobaTGB\">1.4.1a</a>\n"
             "<i>Dev by @Zeragorn</i>"
         )
 
@@ -48,8 +48,12 @@ class Msg:
                 InlineKeyboardButton(text="🕒 Топ времени", callback_data="top_played_time"),
                 InlineKeyboardButton(text="📕 Гайды [WIP]", callback_data="guides")
             ],
-            [InlineKeyboardButton(text="❤ Спасибо <3", callback_data="gratitude")],
-            [InlineKeyboardButton(text="🗺️ Карта", url="https://aoba.lol/")]
+            [
+                InlineKeyboardButton(text="🗺️ Карта", url="https://aoba.lol/"),
+                InlineKeyboardButton(text="🛠️ Утилиты [WIP]", callback_data="utils")
+            ],
+
+            [InlineKeyboardButton(text="❤ Спасибо <3", callback_data="gratitude")]
         ])
 
         return {
@@ -57,7 +61,7 @@ class Msg:
             "buttons": buttons
         }
 
-    async def top_played_time(self) -> dict:
+    async def top_played_time(self) -> dict[str: str, str: InlineKeyboardMarkup]:
         played_time: Dict[str, float] = await SH.get_played_time()
         played_time_formated: str = "\n".join([
             f"• <b>{name}</b> — {time:.1f} ч." for name, time in played_time
@@ -85,7 +89,7 @@ class Msg:
             "refresh_done_text": refresh_done_text
         }
 
-    async def file(self) -> dict[str: str]:
+    async def file(self) -> dict[str: str, str: InlineKeyboardMarkup]:
         return {
             "file_not_found": "⚠️ Сообщение не содержит медиафайл",
             "file_2_big": "📦 Файл превышает 20МБ — загрузка невозможна",
@@ -93,7 +97,7 @@ class Msg:
             "start_load": "📤 Загрузка файла начата"
         }
 
-    async def guides(self) -> dict[str: str]:
+    async def guides(self) -> dict[str: str, str: InlineKeyboardMarkup]:
         text = ("<b>📖 Гайды!</b>\n\n"
                 "Полезная информация о не-ванильных механиках сервера:\n"
                 "🪄 <b>Гайд по палочке отладки</b>\n\n"
@@ -114,7 +118,7 @@ class Msg:
             "buttons": buttons
         }
 
-    async def debug_stick_craft(self) -> dict[str: str]:
+    async def debug_stick_craft(self) -> dict[str: str, str: InlineKeyboardMarkup]:
         text = ("🪄 Палочка отладки - <b>Крафт</b>\n\n"
                 "Ресурсы:\n"
                 "• Алмаз - 1\n"
@@ -133,7 +137,7 @@ class Msg:
             "text": text,
             "buttons": buttons
         }
-    async def debug_stick(self) -> dict[str: str]:
+    async def debug_stick(self) -> dict[str: str, str: InlineKeyboardMarkup]:
         text = ("🪄 Палочка отладки - <b>Информация</b>\n\n"
                 "Палочка отладки - мощный инструмент в умелых руках. Она может менять состояние болоков, такие как: поворот, затопленость, горение и тд"
                 )
@@ -151,7 +155,7 @@ class Msg:
             "buttons": buttons
         }
 
-    async def debug_stick_example(self) -> dict[str: str]:
+    async def debug_stick_example(self) -> dict[str: str, str: InlineKeyboardMarkup]:
         text = ("🪄 Палочка отладки - <b>Пример</b>\n\n"
                 "Как видно на картинке:\n"
                 "• Zeragorn выбрал состояние ЛКМ\n"
@@ -172,7 +176,7 @@ class Msg:
             "buttons": buttons
         }
 
-    async def debug_stick_use(self) -> dict[str: str]:
+    async def debug_stick_use(self) -> dict[str: str, str: InlineKeyboardMarkup]:
         text = ("🪄 Палочка отладки - <b>Применение</b>\n\n"
                 "Палочка отладки позволяет менять <a href=\"https://minecraft.fandom.com/ru/wiki/%D0%A1%D0%BE%D1%81%D1%82%D0%BE%D1%8F%D0%BD%D0%B8%D1%8F_%D0%B1%D0%BB%D0%BE%D0%BA%D0%BE%D0%B2\">состояния</a> "
                 "блоков, что делает ее незаменимым инструментом в декоре и строительстве\n\n"
@@ -194,7 +198,7 @@ class Msg:
             "text": text,
             "buttons": buttons
         }
-    async def gratitude(self) -> dict[str: str]:
+    async def gratitude(self) -> dict[str: str, str: InlineKeyboardMarkup]:
         text = ("""
         Спасибо вам за всё, что вы сделали для меня ❤
 
@@ -208,6 +212,39 @@ https://youtu.be/oEdWItlDv5M?si=pu8CabDOdbZl89QY
         """)
 
         buttons = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="<- Назад 💜", callback_data="start")]])
+
+        return {
+            "text": text,
+            "buttons": buttons
+        }
+
+    async def utils(self) -> dict[str: str, str: InlineKeyboardMarkup]:
+        text = ("<b>🛠️ Утилиты!</b>\n\n"
+                "Полезные инструменты:\n"
+                "👔 <b>Скины из TLauncher</b>\n\n"
+                "📌 В разработке:\n"
+                "• Пока идей нет :( можете предложить\n\n"
+                "P. S. За картинки не бейте, не сделал еще"
+                )
+
+        buttons = InlineKeyboardMarkup(inline_keyboard=[
+            [InlineKeyboardButton(text="👔 Скины из TLauncher", callback_data="tlauncher")],
+            [InlineKeyboardButton(text="<- Назад", callback_data="start")]
+        ])
+
+        return {
+            "text": text,
+            "buttons": buttons
+        }
+
+    async def tlauncher(self) -> dict[str: str, str: InlineKeyboardMarkup]:
+        text = ("<b>👔 Загрузка скинов из TLauncher\'a!</b>\n\n"
+                "Напишите в чат никнейм к которому привязан скин в TLauncher\n"
+                )
+
+        buttons = InlineKeyboardMarkup(inline_keyboard=[
+            [InlineKeyboardButton(text="<- Назад", callback_data="utils"), InlineKeyboardButton(text="Главная", callback_data="start")]
+        ])
 
         return {
             "text": text,
