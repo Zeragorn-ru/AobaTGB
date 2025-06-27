@@ -24,7 +24,7 @@ class SFTPHandler:
         self.password = password
         self._file_cache: Dict[str, Any] = {}
         self._listdir_cache: Optional[List[str]] = None
-        self._remote_upload_path = "./plugins/CustomDiscs/musicdata/"
+        self._remote_upload_path = "./audioplayer_uploads/"
 
     @asynccontextmanager
     async def _sftp_connection(self):
